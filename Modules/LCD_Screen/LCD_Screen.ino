@@ -17,10 +17,10 @@ const int NUM_COLS = 2;
 LiquidCrystal lcd(registerPin, enablePin, D4Pin, D5Pin, D6Pin, D7Pin);
 
 //Text for state1
-char text1[64];
-int TEXT1_LENGTH = strlen(text1);
-char text2[64];
-int TEXT2_LENGTH = strlen(text2);
+String text1;
+int TEXT1_LENGTH;
+String text2;
+int TEXT2_LENGTH;
 
 //Index for both lines of text
 int text1Index = 0;
@@ -30,11 +30,11 @@ bool inputRecieved = false;
 
 #define LCD_DELAY 100
 
-void scroll(int row, char *text, int *index, int length) {
+void scroll(int row, String text, int *index, int length) {
   //Rewrites line 2 with charcter from quote, giving "illusion" of scrolling
   lcd.setCursor(0, row);
   for (int i = 0; i < SIZE_OF_ROW; i++) {
-    lcd.print(text[(i + (*index)) % length]);
+    lcd.print(text.charAt((i + (*index)) % length));
   }
 
   //Sets quote index back to 0 if too high
@@ -48,30 +48,31 @@ void scroll(int row, char *text, int *index, int length) {
 void setup() {
   // put your setup code here, to run once:
   Serial.begin(9600); //Sets up Serial monitor (for debugging)
-
   lcd.begin(SIZE_OF_ROW, NUM_COLS); //Initializes display of LCD
 }
 
 void getInput(){
-  Serial.println("Input Artist name:")
-  while (Serial.available() == 0) {
-  }
-  strcpy(text1, Serial.readString());
-  TEXT_LENGTH = strlen(text);
+  Serial.println("Input Artist name:");
+  while (Serial.available() == 0) {}
 
-  Serial.println("Input song name:")
-  while (Serial.available() == 0) {
-  }
-  strcpy(text2, Serial.readString());
-  TEXT2_LENGTH = strlen(text2);
+  text1 = Serial.readString();
+  TEXT1_LENGTH = text1.length();
+
+  Serial.println("Input song name:");
+  while (Serial.available() == 0) {}
+
+  text2 = Serial.readString();
+  TEXT2_LENGTH = text2.length();
 }
 
 
 
 void loop() {
   // put your main code here, to run repeatedly:
+  Serial.println("White loop:");
 
   if (inputRecieved == false) {
+    Serial.println("White loop:");
     getInput();
     inputRecieved = true;
   }
