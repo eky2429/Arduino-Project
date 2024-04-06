@@ -17,9 +17,9 @@ const int NUM_COLS = 2;
 LiquidCrystal lcd(registerPin, enablePin, D4Pin, D5Pin, D6Pin, D7Pin);
 
 //Text for state1
-String text1;
+String text1 = String("Song name: ");
 int TEXT1_LENGTH;
-String text2;
+String text2 = String("Artist name: ");
 int TEXT2_LENGTH;
 
 //Index for both lines of text
@@ -27,8 +27,9 @@ int text1Index = 0;
 int text2Index = 0;
 
 bool inputRecieved = false;
+long prevMillis = 0;
 
-#define LCD_DELAY 100
+#define LCD_DELAY 250
 
 void scroll(int row, String text, int *index, int length) {
   //Rewrites line 2 with charcter from quote, giving "illusion" of scrolling
@@ -52,32 +53,45 @@ void setup() {
 }
 
 void getInput(){
+  Serial.println("Input Song name:");
+  while (Serial.available() == 0) {}
+
+  String input = Serial.readString();
+  input.trim();
+  text1 += input + " | ";
+  TEXT1_LENGTH = text1.length();
+
   Serial.println("Input Artist name:");
   while (Serial.available() == 0) {}
 
-  text1 = Serial.readString();
-  TEXT1_LENGTH = text1.length();
-
-  Serial.println("Input song name:");
-  while (Serial.available() == 0) {}
-
-  text2 = Serial.readString();
+  input = Serial.readString();
+  input.trim();
+  text2 += input + " | ";
   TEXT2_LENGTH = text2.length();
+
+  Serial.print(text1);
+  Serial.print(text2);
 }
 
 
 
 void loop() {
   // put your main code here, to run repeatedly:
-  Serial.println("White loop:");
 
   if (inputRecieved == false) {
-    Serial.println("White loop:");
     getInput();
     inputRecieved = true;
+    lcd.clear();
+    //Rewrites line 1 with charcter from quote, giving "illusion" of scrolling
+    scroll(0, text1, &text1Index, TEXT1_LENGTH);
+    //Rewrites line 2 with charcter from quote, giving "illusion" of scrolling
+    scroll(1, text2, &text2Index, TEXT2_LENGTH);
   }
 
-  if (millis() % LCD_DELAY == 0) {
+  long currentMillis = millis();
+
+  if (currentMillis - prevMillis >= LCD_DELAY) {
+    prevMillis = currentMillis;
     lcd.clear();
     //Rewrites line 1 with charcter from quote, giving "illusion" of scrolling
     scroll(0, text1, &text1Index, TEXT1_LENGTH);

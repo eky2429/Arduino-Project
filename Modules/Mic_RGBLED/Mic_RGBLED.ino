@@ -13,12 +13,12 @@ int red = 0, green = 0, blue = 0;
 
 //For MIC
 #define MICPIN A0
-#define MICMIN 50
-#define MICMAX 100
+#define MICMIN 0
+#define MICMAX 1024
 #define MIC_DELAY 100
 
 int micInput = 0;
-float m = RGBMAX * 1.0 / (MICMAX - MICMIN);
+float m = 1.0 / (MICMAX);
 
 //Multiplier from microphone
 
@@ -34,6 +34,8 @@ void setup() {
 
   //Sets mic
   pinMode(MICPIN, INPUT);
+  // Serial.print("M is ");
+  // Serial.println(m);
 }
 
 //Sets RGB colors for RGB LED
@@ -45,13 +47,13 @@ void setColor(int redValue, int greenValue,  int blueValue) {
   analogWrite(GREENPIN,  greenValue);
   analogWrite(BLUEPIN, blueValue);
 
-  // Serial.print("(");
-  // Serial.print(redValue);
-  // Serial.print(",");
-  // Serial.print(greenValue);
-  // Serial.print(",");
-  // Serial.print(blueValue);
-  // Serial.println(")");
+  Serial.print("(");
+  Serial.print(redValue);
+  Serial.print(",");
+  Serial.print(greenValue);
+  Serial.print(",");
+  Serial.print(blueValue);
+  Serial.println(")");
 }
 
 void colorCycle(){
@@ -87,7 +89,7 @@ void loop() {
 
   if (millis() % MIC_DELAY == 0) {
     micInput = analogRead(MICPIN);
-    Serial.println(micInput);
+    // Serial.println(micInput);
   }
 
   if (millis() % LED_DELAY == 0) {

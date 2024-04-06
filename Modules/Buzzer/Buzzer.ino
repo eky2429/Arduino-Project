@@ -2,6 +2,7 @@
 #include "pitches.h"
 
 #define BUZZER_PIN 9
+#define REST 0
 
 int hb_melody[] = {
   NOTE_C4, NOTE_C4, 
@@ -290,13 +291,13 @@ void setup() {
 
 void loop() {
   // put your main code here, to run repeatedly:
-  int size = sizeof(durations) / sizeof(int);
+  int size = sizeof(tetris_durations) / sizeof(int);
 
   for (int note = 0; note < size; note++) {
     //to calculate the note duration, take one second divided by the note type.
     //e.g. quarter note = 1000 / 4, eighth note = 1000/8, etc.
-    int duration = 1000 / durations[note];
-    tone(BUZZER_PIN, melody[note], duration);
+    int duration = 1000 / tetris_durations[note];
+    tone(BUZZER_PIN, tetris_melody[note], duration);
 
     //to distinguish the notes, set a minimum time between them.
     //the note's duration + 30% seems to work well:
