@@ -52,9 +52,13 @@ void translateIR() { // takes action based on IR code received
     // case 0xFF22DD: Serial.println("FAST BACK");    break;
     // case 0xFF02FD: Serial.println("PAUSE");    break;
     // case 0xFFC23D: Serial.println("FAST FORWARD");   break;
-    // case 0xFFE01F: Serial.println("DOWN");    break;
+    case 0xFFE01F:
+      Serial.write("DOWN");
+      break;
     // case 0xFFA857: Serial.println("VOL-");    break;
-    // case 0xFF906F: Serial.println("UP");    break;
+    case 0xFF906F:
+      Serial.write("UP");
+      break;
     // case 0xFF9867: Serial.println("EQ");    break;
     // case 0xFFB04F: Serial.println("ST/REPT");    break;
     case 0xFF6897:
@@ -74,23 +78,23 @@ void translateIR() { // takes action based on IR code received
       Serial.write('3');
       break;
     case 0xFF10EF:
-      Serial.println("4");
+      // Serial.println("4");
       Serial.write('4');
       break;
     case 0xFF38C7:
-      Serial.println("5");
+      // Serial.println("5");
       Serial.write('5');
       break;
     case 0xFF5AA5:
-      Serial.println("6");
+      // Serial.println("6");
       Serial.write('6');
       break;
     case 0xFF42BD:
-      Serial.println("7");
+      // Serial.println("7");
       Serial.write('7');
       break;
     case 0xFF4AB5:
-      Serial.println("8");
+      // Serial.println("8");
       Serial.write('8');
       break;
     // case 0xFF52AD: Serial.println("9");    break;

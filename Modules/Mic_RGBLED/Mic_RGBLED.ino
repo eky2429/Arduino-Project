@@ -187,10 +187,10 @@ void loop() {
   //Gets input from other Arduino
   if (Serial.available() > 0) {
     while (Serial.available() > 0) {
-    char message = Serial.read();
-    String message2 = String("Message: " + message);
-    // Serial.println(message2);
-    analyzeMessage(message);
-  }
+      char message = Serial.readString();
+      // String message2 = String("Message: " + message);
+      // Serial.println(message2);
+      analyzeMessage(message);
+    }
   }
 }
